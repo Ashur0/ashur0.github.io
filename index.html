@@ -9,6 +9,7 @@
 <meta property="og:description" content="DeFi engineering, smart-contract security research, and shipped browser games. Everything live and verifiable.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0a0c12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0c12'/%3E%3Ctext x='50' y='50' font-family='monospace' font-size='46' font-weight='700' fill='%23ffb020' text-anchor='middle' dominant-baseline='central'%3EA%3C/text%3E%3Crect x='30' y='74' width='40' height='6' rx='3' fill='%233dd7c4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap">
@@ -197,6 +198,44 @@
   .svc .item li { font-size:13px; color:var(--fg); display:flex; gap:8px; }
   .svc .item li::before{ content:"·"; color:var(--laneclr); font-weight:700; }
 
+  /* ----- scroll reveal (visible by default; JS opts into the animation) ----- */
+  @media (prefers-reduced-motion: no-preference){
+    .js-reveal .reveal { opacity:0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+    .js-reveal .reveal.in { opacity:1; transform: none; }
+  }
+
+  /* ----- screenshot placeholder (swap for real <img>) ----- */
+  .shot { aspect-ratio: 16/10; border-radius:10px; border:1px solid var(--line); margin:-4px -4px 2px;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 11px, color-mix(in srgb,var(--laneclr) 7%,transparent) 11px 12px),
+      var(--surface-2);
+    display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .shot span { font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); }
+  .shot img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ----- featured case study ----- */
+  .case { background:
+      linear-gradient(135deg, color-mix(in srgb,var(--break) 10%,var(--surface)), var(--surface) 55%);
+    border:1px solid color-mix(in srgb,var(--break) 30%,var(--line)); border-radius:16px; padding: clamp(22px,4vw,38px); }
+  .case .tagline { font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--break); margin-bottom:12px; }
+  .case h3 { font-size: clamp(22px,3.4vw,30px); margin-bottom:18px; }
+  .case .steps { display:grid; grid-template-columns: repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:6px; }
+  @media (max-width:640px){ .case .steps{ grid-template-columns:1fr; } }
+  .case .steps div { background:var(--surface); padding:18px; }
+  .case .steps h5 { font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--break); margin:0 0 8px; font-weight:700; }
+  .case .steps p { margin:0; font-size:14px; color:var(--muted); }
+  .case .impact { margin-top:22px; display:flex; gap:26px; flex-wrap:wrap; align-items:baseline; }
+  .case .impact .big { font-family:var(--disp); font-weight:800; font-size:clamp(28px,5vw,44px); color:var(--fg); letter-spacing:-.03em; font-variant-numeric:tabular-nums; }
+  .case .impact .lbl { font-family:var(--mono); font-size:12px; color:var(--muted); max-width:30ch; }
+
+  /* ----- project brief box ----- */
+  .brief { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px; margin-top:8px; }
+  .brief h4 { font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 12px; font-weight:600; }
+  .brief ol { margin:0; padding-left:20px; display:flex; flex-direction:column; gap:7px; }
+  .brief li { font-size:14.5px; color:var(--fg); }
+  .brief li span{ color:var(--muted); }
+  .brief .tmpl { margin-top:16px; }
+
   :focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
 </style>
 
@@ -338,30 +377,54 @@
       </div>
     </section>
 
+    <!-- CASE STUDY -->
+    <section class="break-l">
+      <div class="shead"><span class="num">02·a</span><h2>Featured case</h2><span class="k">sanitized</span></div>
+      <div class="case reveal">
+        <div class="tagline">// perpetuals protocol · Immunefi</div>
+        <h3>Two small bugs, chained into a full-value drain</h3>
+        <div class="steps">
+          <div><h5>Problem</h5><p>A margin/settlement contract looked correct in isolation. Each function passed its own checks — the risk lived in how two of them interacted.</p></div>
+          <div><h5>Approach</h5><p>I modeled the protocol's invariants, then wrote a Foundry test that chained the two paths in one transaction to break a balance the system assumed could never go negative.</p></div>
+          <div><h5>Impact</h5><p>The PoC moves the full exploitable balance to an attacker in a single call — reproducible by the team with one command.</p></div>
+        </div>
+        <div class="impact">
+          <div><div class="big">$10.5M</div><div class="lbl">value drained in the proof-of-concept</div></div>
+          <div><div class="big">2</div><div class="lbl">linked findings submitted together</div></div>
+          <div><div class="big">1 tx</div><div class="lbl">attack executes atomically</div></div>
+        </div>
+        <p class="note" style="margin-top:18px">// Protocol name and full write-up shared on request, within disclosure rules.</p>
+      </div>
+    </section>
+
     <!-- PLAY -->
     <section class="play-l">
       <div class="shead"><span class="num">03</span><h2>Play</h2><span class="k">games · web · XR</span></div>
       <p class="sdesc">Shipped, playable browser projects — WebGL, WebXR, and a neural-creature simulation. These are live links, not screenshots. Open them.</p>
       <div class="grid">
         <a class="card" href="https://ashur0.github.io/neon-sanction" target="_blank" rel="noopener">
+          <div class="shot"><span>screenshot → neon-sanction.png</span></div>
           <span class="role">2D fighter</span>
           <h3>Neon Sanction</h3>
           <p>A fast, hand-tuned 2D fighting game running entirely in the browser. Cyberpunk palette, responsive combat feel.</p>
           <div class="foot"><span class="live">play live</span><span class="pill">Canvas</span><span class="pill">↗</span></div>
         </a>
         <a class="card" href="https://ashur0.github.io/gait-lab" target="_blank" rel="noopener">
+          <div class="shot"><span>screenshot → gait-lab.png</span></div>
           <span class="role">simulation</span>
           <h3>Gait Lab</h3>
           <p>Neural-creature walking simulation — watch procedurally-driven critters learn to move. My first public shipped project.</p>
           <div class="foot"><span class="live">play live</span><span class="pill">WebGL</span><span class="pill">↗</span></div>
         </a>
         <a class="card" href="https://garak-demo.onrender.com" target="_blank" rel="noopener">
+          <div class="shot"><span>screenshot → garak-demo.png</span></div>
           <span class="role">interactive app</span>
           <h3>Garak Demo</h3>
           <p>A live Flask playground: SOC training arena, a coding lab, a WebXR game, and a face-scan toy — all under one roof.</p>
           <div class="foot"><span class="live">live app</span><span class="pill">Flask</span><span class="pill">WebXR</span><span class="pill">↗</span></div>
         </a>
         <a class="card" href="https://ashur0.github.io/portfolio" target="_blank" rel="noopener">
+          <div class="shot"><span>screenshot → portfolio.png</span></div>
           <span class="role">sandbox</span>
           <h3>Neon Playground</h3>
           <p>An experimental front-end playground and earlier portfolio — the place loose ideas get prototyped before they graduate.</p>
@@ -409,6 +472,15 @@
           <a class="btn" href="https://github.com/ashur0" target="_blank" rel="noopener">GitHub · ashur0 ↗</a>
           <a class="btn" href="https://ashur0.github.io/portfolio" target="_blank" rel="noopener">Live projects ↗</a>
         </div>
+        <div class="brief">
+          <h4>To get a fast, useful reply, tell me:</h4>
+          <ol>
+            <li>What it is <span>— the repo/contract, the bot, or the page you need</span></li>
+            <li>What you want <span>— audit, build, fix, or a second opinion</span></li>
+            <li>Timeline &amp; budget range <span>— even rough; it helps me say yes or no honestly</span></li>
+          </ol>
+          <div class="tmpl"><button class="copy" id="copybrief">copy brief template</button></div>
+        </div>
       </div>
     </section>
 
@@ -431,6 +503,30 @@
       root.setAttribute('data-theme', next);
       try { localStorage.setItem('al-theme', next); } catch(e){}
     });
+  })();
+  // scroll reveal — opt in only when JS + motion allowed, so no-JS stays fully visible
+  (function(){
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return;
+    document.documentElement.classList.add('js-reveal');
+    var targets = document.querySelectorAll('section .shead, section .grid, .about, .svc, .metrics, .case, .tscroll');
+    targets.forEach(function(el){ el.classList.add('reveal'); });
+    var io = new IntersectionObserver(function(ents){
+      ents.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function(el){ io.observe(el); });
+  })();
+  // copy helper
+  function copyText(btn, text, label){
+    var done = function(){ var o=btn.textContent; btn.textContent = (label||'copied')+' ✓'; setTimeout(function(){ btn.textContent=o; }, 1700); };
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done).catch(done); }
+    else { done(); }
+  }
+  // copy brief template
+  (function(){
+    var btn = document.getElementById('copybrief');
+    var t = "Project brief for Ashur\n\n1. What it is: \n2. What I want (audit / build / fix): \n3. Timeline: \n4. Budget range: \n5. Links (repo / contract / site): \n";
+    if (btn) btn.addEventListener('click', function(){ copyText(btn, t, 'copied'); });
   })();
   // copy email
   (function(){
