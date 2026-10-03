@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ashur Larchin — independent engineer & smart-contract security researcher. DeFi trading infrastructure, bug-bounty research, and shipped browser games.">
+<meta name="author" content="Ashur Larchin">
+<meta property="og:title" content="Ashur Larchin — build · break · play">
+<meta property="og:description" content="DeFi engineering, smart-contract security research, and shipped browser games. Everything live and verifiable.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a0c12">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;}
+  img{max-width:100%;}
+  [hidden]{display:none!important;}
+</style>
+<title>Ashur Larchin</title>
+<style>
+  /* Layout: fixed left rail of initials + scrolling single column of lane-coded sections.
+     Three domain accents (build/break/play) are structural, not decorative. */
+  :root {
+    --bg:        #0a0c12;
+    --surface:   #11141d;
+    --surface-2: #171b27;
+    --line:      #242a39;
+    --fg:        #e7e9f0;
+    --muted:     #8a90a6;
+    --faint:     #5a6075;
+    --build:     #ffb020;  /* dev / defi */
+    --break:     #3dd7c4;  /* security   */
+    --play:      #ff5d9e;  /* games      */
+    --accent:    var(--build);
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --disp: "Archivo", system-ui, sans-serif;
+    --body: "Instrument Sans", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg:#f5f4ef; --surface:#fffdf8; --surface-2:#eeece4; --line:#ddd9cd;
+      --fg:#17191f; --muted:#5c6170; --faint:#8b8f9c;
+      --build:#b06d00; --break:#0a8f7c; --play:#c5316f; color-scheme:light;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg:#f5f4ef; --surface:#fffdf8; --surface-2:#eeece4; --line:#ddd9cd;
+    --fg:#17191f; --muted:#5c6170; --faint:#8b8f9c;
+    --build:#b06d00; --break:#0a8f7c; --play:#c5316f; color-scheme:light;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: var(--body); line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "ss01";
+  }
+  @media (prefers-reduced-motion: no-preference){
+    html { scroll-behavior: smooth; }
+  }
+  a { color: inherit; }
+  h1,h2,h3 { font-family: var(--disp); font-weight: 800; text-wrap: balance; margin:0; letter-spacing:-.02em; }
+  .mono { font-family: var(--mono); }
+
+  /* ----- shell ----- */
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; }
+  .rail {
+    position: fixed; inset: 0 auto 0 0; width: 56px; z-index: 30;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: space-between; padding-block: 22px;
+    border-right: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(8px);
+  }
+  .rail .tag { font-family: var(--mono); font-weight:700; font-size: 15px; color: var(--fg); text-decoration:none; }
+  .rail .vert { writing-mode: vertical-rl; font-family: var(--mono); font-size: 11px;
+    letter-spacing: .28em; text-transform: uppercase; color: var(--faint); }
+  .rail .dot { width:8px;height:8px;border-radius:50%;background:var(--break);
+    box-shadow:0 0 0 0 color-mix(in srgb,var(--break) 60%,transparent); }
+  @media (prefers-reduced-motion: no-preference){ .rail .dot{ animation: pulse 2.6s infinite; } }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--break) 55%,transparent);} 70%{box-shadow:0 0 0 7px transparent;} 100%{box-shadow:0 0 0 0 transparent;} }
+  main { margin-left: 56px; }
+  @media (max-width: 640px){ .rail{ width:100%; inset:auto 0 0 0; height:52px; flex-direction:row; padding:0 16px; padding-bottom:calc(env(safe-area-inset-bottom,0px)); border-right:0; border-top:1px solid var(--line); }
+    .rail .vert{ writing-mode: horizontal-tb; } main{ margin-left:0; padding-bottom:56px; } }
+
+  /* ----- hero ----- */
+  header.hero { padding-block: clamp(48px, 11vh, 120px) 40px; border-bottom: 1px solid var(--line); }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing:.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 22px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .eyebrow b{ color: var(--fg); font-weight:600; }
+  h1 { font-size: clamp(40px, 8.5vw, 86px); line-height: .98; }
+  h1 .sweep { display:block; }
+  h1 em { font-style: normal; }
+  .b1{ color: var(--build);} .b2{ color: var(--break);} .b3{ color: var(--play);}
+  .lede { margin-top: 26px; max-width: 54ch; font-size: clamp(16px,2.3vw,19px); color: var(--fg); }
+  .lede span { color: var(--muted); }
+  .cta { margin-top: 30px; display:flex; gap: 12px; flex-wrap: wrap; }
+  .btn { font-family: var(--mono); font-size: 13px; letter-spacing:.02em; text-decoration:none;
+    padding: 11px 16px; border:1px solid var(--line); border-radius: 10px; background: var(--surface);
+    color: var(--fg); display:inline-flex; gap:8px; align-items:center; transition: border-color .15s, transform .15s; }
+  .btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .btn.solid { background: var(--accent); border-color: var(--accent); color:#0a0c12; font-weight:700; }
+  :root[data-theme="light"] .btn.solid, :root:not([data-theme="dark"]) .btn.solid { color:#fffdf8; }
+
+  /* ----- metrics strip ----- */
+  .metrics { display:grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--line);
+    border-block: 1px solid var(--line); }
+  .metrics div { background: var(--bg); padding: 22px 18px; }
+  .metrics .n { font-family: var(--disp); font-weight:800; font-size: clamp(26px,4vw,38px); letter-spacing:-.03em; font-variant-numeric: tabular-nums; }
+  .metrics .l { font-family: var(--mono); font-size: 11px; letter-spacing:.14em; text-transform:uppercase; color: var(--muted); margin-top:6px; }
+  @media (max-width:640px){ .metrics{ grid-template-columns: repeat(2,1fr); } }
+
+  /* ----- section scaffold ----- */
+  section { padding-block: clamp(52px, 9vh, 92px); border-bottom: 1px solid var(--line); }
+  .shead { display:flex; align-items:baseline; gap:16px; margin-bottom: 34px; flex-wrap:wrap; }
+  .shead .num { font-family: var(--mono); font-size: 13px; color: var(--laneclr, var(--muted)); font-weight:700; }
+  .shead h2 { font-size: clamp(28px,5vw,46px); }
+  .shead .k { font-family: var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--laneclr); border:1px solid var(--line); border-radius:999px; padding:5px 11px; }
+  .sdesc { color: var(--muted); max-width: 60ch; margin: -14px 0 32px; }
+
+  .build-l { --laneclr: var(--build); }
+  .break-l { --laneclr: var(--break); }
+  .play-l  { --laneclr: var(--play); }
+
+  /* ----- cards ----- */
+  .grid { display:grid; gap:16px; grid-template-columns: repeat(2,1fr); }
+  @media (max-width:720px){ .grid{ grid-template-columns:1fr; } }
+  .card { background: var(--surface); border:1px solid var(--line); border-radius: 14px; padding: 22px;
+    display:flex; flex-direction:column; gap: 12px; min-width:0; transition: border-color .15s, transform .15s; text-decoration:none; color:inherit; position:relative; overflow:hidden; }
+  .card::before{ content:""; position:absolute; inset:0 auto 0 0; width:3px; background: var(--laneclr); opacity:.0; transition:opacity .15s; }
+  a.card:hover { border-color: color-mix(in srgb, var(--laneclr) 55%, var(--line)); transform: translateY(-2px); }
+  a.card:hover::before{ opacity:1; }
+  .card h3 { font-size: 20px; }
+  .card .role { font-family: var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color: var(--laneclr); }
+  .card p { margin:0; color: var(--muted); font-size: 14.5px; }
+  .card .foot { margin-top:auto; display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-family:var(--mono); font-size:11.5px; color:var(--faint); }
+  .pill { border:1px solid var(--line); border-radius:999px; padding:3px 9px; }
+  .live { color: var(--laneclr); }
+  .live::before{ content:"● "; }
+
+  /* findings table */
+  .tscroll{ overflow-x:auto; border:1px solid var(--line); border-radius:14px; background:var(--surface); }
+  table { border-collapse: collapse; width:100%; min-width: 520px; font-size: 14px; }
+  th,td { text-align:left; padding: 13px 16px; border-bottom:1px solid var(--line); }
+  th { font-family: var(--mono); font-size: 11px; letter-spacing:.12em; text-transform:uppercase; color: var(--muted); font-weight:600; }
+  tr:last-child td { border-bottom:0; }
+  td .sev { font-family:var(--mono); font-size:11px; font-weight:700; padding:3px 8px; border-radius:6px; }
+  .sev.high{ background: color-mix(in srgb,#ff5d5d 20%, transparent); color:#ff8a8a; }
+  .sev.med { background: color-mix(in srgb,var(--build) 18%, transparent); color: var(--build); }
+  .sev.low { background: color-mix(in srgb,var(--break) 16%, transparent); color: var(--break); }
+  td.plat { font-family: var(--mono); color: var(--muted); }
+  :root[data-theme="light"] .sev.high,:root:not([data-theme="dark"]) .sev.high{ color:#b42318; }
+
+  .note { font-family: var(--mono); font-size:12px; color:var(--faint); margin-top:14px; }
+
+  /* contact */
+  .contact { display:flex; flex-direction:column; gap:22px; }
+  .maill { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .maill code { font-family: var(--mono); font-size: clamp(15px,3.4vw,22px); background: var(--surface-2); padding:8px 14px; border-radius:10px; border:1px solid var(--line); }
+  .copy { font-family:var(--mono); font-size:12px; cursor:pointer; background:var(--surface); border:1px solid var(--line); color:var(--fg); border-radius:9px; padding:9px 13px; }
+  .copy:hover{ border-color: var(--accent); }
+  .links { display:flex; gap:12px; flex-wrap:wrap; }
+
+  footer { padding-block: 34px 48px; color: var(--faint); font-family: var(--mono); font-size: 12px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+
+  .themebtn{ position:fixed; top: calc(env(safe-area-inset-top,0px) + 14px); right:16px; z-index:40;
+    font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    background: color-mix(in srgb,var(--bg) 80%,transparent); color:var(--muted); border:1px solid var(--line);
+    border-radius:999px; padding:7px 12px; cursor:pointer; backdrop-filter: blur(6px); }
+  .themebtn:hover{ color:var(--fg); border-color:var(--accent); }
+
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+</style>
+
+<nav class="rail" aria-label="section">
+  <a class="tag" href="#top">AL<span style="color:var(--build)">_</span></a>
+  <div class="vert">build · break · play</div>
+  <div class="dot" title="available for work"></div>
+</nav>
+
+<button class="themebtn" id="themebtn" aria-label="toggle theme">theme</button>
+
+<main id="top">
+  <div class="wrap">
+    <header class="hero">
+      <div class="eyebrow"><b>Ashur Larchin</b> <span>/</span> independent engineer &amp; security researcher <span>/</span> AU</div>
+      <h1>
+        <span class="sweep">I <em class="b1">build</em> systems,</span>
+        <span class="sweep"><em class="b2">break</em> them for pay,</span>
+        <span class="sweep">and <em class="b3">ship</em> games.</span>
+      </h1>
+      <p class="lede">On-chain trading infrastructure, smart-contract vulnerability research, and shipped browser games — <span>three disciplines, one person, everything live and verifiable below.</span></p>
+      <div class="cta">
+        <a class="btn solid" href="#work">See the work ↓</a>
+        <a class="btn" href="https://github.com/ashur0" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn" href="#contact">Hire me</a>
+      </div>
+    </header>
+  </div>
+
+  <div class="metrics" role="list">
+    <div role="listitem"><div class="n">5+</div><div class="l">audit platforms</div></div>
+    <div role="listitem"><div class="n">$10.5M</div><div class="l">drain shown in one PoC</div></div>
+    <div role="listitem"><div class="n">6</div><div class="l">games & apps live</div></div>
+    <div role="listitem"><div class="n">0.8.18</div><div class="l">solidity, daily</div></div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- BUILD -->
+    <section id="work" class="build-l">
+      <div class="shead"><span class="num">01</span><h2>Build</h2><span class="k">DeFi · bots · infra</span></div>
+      <p class="sdesc">Production-shaped trading and automation systems against mainnet forks: flash-loan arbitrage, liquidation monitoring, and a multi-strategy quant framework with real walk-forward validation (not curve-fit backtests).</p>
+      <div class="grid">
+        <div class="card">
+          <span class="role">arbitrage</span>
+          <h3>Trading Bot V3</h3>
+          <p>Uniswap V3 ↔ Pancakeswap V3 spread bot. Subscribes to on-chain Swap events, checks profitability, and fires a Balancer flash-loan contract that runs both legs atomically.</p>
+          <div class="foot"><span class="pill">Solidity</span><span class="pill">ethers.js</span><span class="pill">Hardhat fork</span></div>
+        </div>
+        <div class="card">
+          <span class="role">quant</span>
+          <h3>Multi-Strategy Quant Framework</h3>
+          <p>Python/ccxt backtesting with walk-forward analysis across strategies. Honest result: only momentum held out of sample (Sharpe 0.42) — so it stays paper-traded. I report what the data says.</p>
+          <div class="foot"><span class="pill">Python</span><span class="pill">ccxt</span><span class="pill">walk-forward</span></div>
+        </div>
+        <div class="card">
+          <span class="role">infra</span>
+          <h3>Liquidation Monitor</h3>
+          <p>Morpho liquidation observer running as a persistent service, collecting 29 days of real opportunity data to size EV before risking capital. Verdict: no-go — and I logged why.</p>
+          <div class="foot"><span class="pill">systemd</span><span class="pill">RPC</span><span class="pill">EV modeling</span></div>
+        </div>
+        <div class="card">
+          <span class="role">tooling</span>
+          <h3>Bot Wallet Toolkit</h3>
+          <p>Reusable ethers v6 scripts for key handling, balance sweeps, and signed-tx plumbing — the boring, reliable layer every bot above sits on.</p>
+          <div class="foot"><span class="pill">ethers v6</span><span class="pill">reusable</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BREAK -->
+    <section class="break-l">
+      <div class="shead"><span class="num">02</span><h2>Break</h2><span class="k">smart-contract security</span></div>
+      <p class="sdesc">Active bug-bounty researcher across Immunefi, Cantina, Sherlock, HackerOne and HackenProof. I read protocols the way an attacker does, write proof-of-concept exploits in Foundry, and only submit what I can demonstrate puts funds at risk.</p>
+      <div class="tscroll">
+        <table>
+          <thead><tr><th>Finding</th><th>Severity</th><th>Platform</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Fund-drain exploit chain (two linked bugs)</td><td><span class="sev high">High</span></td><td class="plat">Immunefi</td><td>$10.5M PoC · submitted</td></tr>
+            <tr><td>Oracle / accounting flaw</td><td><span class="sev med">Medium</span></td><td class="plat">Cantina</td><td>submitted</td></tr>
+            <tr><td>Protocol logic bug</td><td><span class="sev med">Medium</span></td><td class="plat">Immunefi</td><td>submitted</td></tr>
+            <tr><td>Claim-overwrite vulnerability</td><td><span class="sev med">Medium</span></td><td class="plat">Sherlock</td><td>found · PoC</td></tr>
+            <tr><td>Access-control gap (fee distributor)</td><td><span class="sev high">High</span></td><td class="plat">HackenProof</td><td>PoC passing</td></tr>
+            <tr><td>Rounding / share-dilution lead</td><td><span class="sev low">Low</span></td><td class="plat">Cantina</td><td>submitted</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">// Specific targets, protocols and payouts shared privately under NDA / disclosure rules. Full write-ups available on request.</p>
+      <div class="grid" style="margin-top:28px">
+        <div class="card">
+          <span class="role">methodology</span>
+          <h3>Exploit Lab</h3>
+          <p>A Foundry workspace of reproducible exploit PoCs. Every claimed bug ships with a failing-invariant test that a maintainer can run in one command.</p>
+          <div class="foot"><span class="pill">Foundry</span><span class="pill">Solidity</span><span class="pill">PoC-first</span></div>
+        </div>
+        <div class="card">
+          <span class="role">discipline</span>
+          <h3>Triage &amp; Kill List</h3>
+          <p>Most leads die on inspection — deliberate design, not a bug. I maintain a pipeline and playbook so time goes to fundable issues, not false positives. Rigor is the product.</p>
+          <div class="foot"><span class="pill">scope tracking</span><span class="pill">honest no-go</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAY -->
+    <section class="play-l">
+      <div class="shead"><span class="num">03</span><h2>Play</h2><span class="k">games · web · XR</span></div>
+      <p class="sdesc">Shipped, playable browser projects — WebGL, WebXR, and a neural-creature simulation. These are live links, not screenshots. Open them.</p>
+      <div class="grid">
+        <a class="card" href="https://ashur0.github.io/neon-sanction" target="_blank" rel="noopener">
+          <span class="role">2D fighter</span>
+          <h3>Neon Sanction</h3>
+          <p>A fast, hand-tuned 2D fighting game running entirely in the browser. Cyberpunk palette, responsive combat feel.</p>
+          <div class="foot"><span class="live">play live</span><span class="pill">Canvas</span><span class="pill">↗</span></div>
+        </a>
+        <a class="card" href="https://ashur0.github.io/gait-lab" target="_blank" rel="noopener">
+          <span class="role">simulation</span>
+          <h3>Gait Lab</h3>
+          <p>Neural-creature walking simulation — watch procedurally-driven critters learn to move. My first public shipped project.</p>
+          <div class="foot"><span class="live">play live</span><span class="pill">WebGL</span><span class="pill">↗</span></div>
+        </a>
+        <a class="card" href="https://garak-demo.onrender.com" target="_blank" rel="noopener">
+          <span class="role">interactive app</span>
+          <h3>Garak Demo</h3>
+          <p>A live Flask playground: SOC training arena, a coding lab, a WebXR game, and a face-scan toy — all under one roof.</p>
+          <div class="foot"><span class="live">live app</span><span class="pill">Flask</span><span class="pill">WebXR</span><span class="pill">↗</span></div>
+        </a>
+        <a class="card" href="https://ashur0.github.io/portfolio" target="_blank" rel="noopener">
+          <span class="role">sandbox</span>
+          <h3>Neon Playground</h3>
+          <p>An experimental front-end playground and earlier portfolio — the place loose ideas get prototyped before they graduate.</p>
+          <div class="foot"><span class="live">visit</span><span class="pill">front-end</span><span class="pill">↗</span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" style="border-bottom:0">
+      <div class="shead"><span class="num">04</span><h2>Work with me</h2></div>
+      <p class="sdesc">Open to smart-contract audits, DeFi/bot engineering, and front-end / game build work. Tell me what's breaking or what you want built.</p>
+      <div class="contact">
+        <div class="maill">
+          <code id="mail">ashurlarchin@hotmail.com</code>
+          <button class="copy" id="copy">copy</button>
+        </div>
+        <div class="links">
+          <a class="btn" href="https://github.com/ashur0" target="_blank" rel="noopener">GitHub · ashur0 ↗</a>
+          <a class="btn" href="https://ashur0.github.io/portfolio" target="_blank" rel="noopener">Live projects ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>© 2026 Ashur Larchin — built, broken &amp; shipped by hand.</span>
+      <span>build · break · play</span>
+    </footer>
+  </div>
+</main>
+
+<script>
+  // theme toggle (per-viewer convenience only)
+  (function(){
+    var root = document.documentElement, btn = document.getElementById('themebtn');
+    try { var s = localStorage.getItem('al-theme'); if (s) root.setAttribute('data-theme', s); } catch(e){}
+    btn.addEventListener('click', function(){
+      var cur = root.getAttribute('data-theme');
+      var sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var next = cur ? (cur === 'dark' ? 'light' : 'dark') : (sysDark ? 'light' : 'dark');
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('al-theme', next); } catch(e){}
+    });
+  })();
+  // copy email
+  (function(){
+    var btn = document.getElementById('copy'), mail = 'ashurlarchin@hotmail.com';
+    btn.addEventListener('click', function(){
+      var done = function(){ btn.textContent = 'copied ✓'; setTimeout(function(){ btn.textContent='copy'; }, 1600); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(mail).then(done).catch(select);
+      } else { select(); }
+      function select(){
+        try { var r=document.createRange(); r.selectNode(document.getElementById('mail'));
+          var s=window.getSelection(); s.removeAllRanges(); s.addRange(r); done(); } catch(e){ btn.textContent='select it ↑'; }
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
