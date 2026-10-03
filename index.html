@@ -170,6 +170,33 @@
     border-radius:999px; padding:7px 12px; cursor:pointer; backdrop-filter: blur(6px); }
   .themebtn:hover{ color:var(--fg); border-color:var(--accent); }
 
+  /* ----- about ----- */
+  .about { display:grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items:start; }
+  @media (max-width:760px){ .about{ grid-template-columns:1fr; gap:28px; } }
+  .about p.big { font-family: var(--disp); font-weight:500; font-size: clamp(19px,2.6vw,26px); line-height:1.4; letter-spacing:-.01em; margin:0 0 18px; text-wrap:balance; }
+  .about p.sub { color: var(--muted); font-size: 15px; margin:0 0 14px; max-width:52ch; }
+  .about .side { border-left: 2px solid var(--line); padding-left: 22px; display:flex; flex-direction:column; gap:18px; }
+  .about .side h4 { font-family: var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin:0 0 8px; font-weight:600; }
+  .about .side ul { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .about .side li { font-size:14px; color:var(--fg); display:flex; gap:9px; }
+  .about .side li::before{ content:"→"; color:var(--build); font-family:var(--mono); }
+
+  /* ----- stack strip ----- */
+  .stack { display:flex; flex-wrap:wrap; gap:8px; margin-top:30px; }
+  .stack .chip { font-family:var(--mono); font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:6px 12px; background:var(--surface); }
+  .stack .chip b{ color:var(--fg); font-weight:600; }
+
+  /* ----- services ----- */
+  .svc { display:grid; grid-template-columns: repeat(3,1fr); gap:16px; }
+  @media (max-width:760px){ .svc{ grid-template-columns:1fr; } }
+  .svc .item { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:24px; display:flex; flex-direction:column; gap:12px; min-width:0; border-top:3px solid var(--laneclr); }
+  .svc .item h3 { font-size:19px; }
+  .svc .item p { margin:0; color:var(--muted); font-size:14px; }
+  .svc .item .what { font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--laneclr); }
+  .svc .item ul { margin:6px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px; }
+  .svc .item li { font-size:13px; color:var(--fg); display:flex; gap:8px; }
+  .svc .item li::before{ content:"·"; color:var(--laneclr); font-weight:700; }
+
   :focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
 </style>
 
@@ -207,6 +234,43 @@
   </div>
 
   <div class="wrap">
+
+    <!-- ABOUT -->
+    <section id="about" class="build-l">
+      <div class="shead"><span class="num">00</span><h2>Who I am</h2><span class="k">independent · AU · remote</span></div>
+      <div class="about">
+        <div>
+          <p class="big">I'm a self-directed engineer who learns by shipping real systems — not tutorials, but bots that touch mainnet, exploits that run, and games people can play.</p>
+          <p class="sub">Most of my work lives at the intersection of money and code: automated trading infrastructure, and the adversarial flip-side of it — finding the flaws that let value leak out of a protocol. I treat both the same way: build the smallest thing that proves the idea, measure it honestly, and keep only what survives contact with reality.</p>
+          <p class="sub">I'd rather tell you a strategy didn't work than dress up a backtest. That discipline is the reason the security work pays.</p>
+          <div class="stack">
+            <span class="chip"><b>Solidity</b> · Foundry · Hardhat</span>
+            <span class="chip"><b>Python</b> · ccxt · pandas</span>
+            <span class="chip"><b>JavaScript</b> · ethers v6 · Node</span>
+            <span class="chip"><b>Web</b> · Canvas · WebGL · WebXR</span>
+            <span class="chip">Flask · systemd · Linux</span>
+          </div>
+        </div>
+        <div class="side">
+          <div>
+            <h4>How I work</h4>
+            <ul>
+              <li>PoC first — if it can't be demonstrated, it isn't a claim</li>
+              <li>Honest reporting, including the no-gos</li>
+              <li>Small, verifiable commits over big reveals</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Active on</h4>
+            <ul>
+              <li>Immunefi · Cantina</li>
+              <li>Sherlock · Code4rena</li>
+              <li>HackerOne · HackenProof</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- BUILD -->
     <section id="work" class="build-l">
@@ -306,9 +370,35 @@
       </div>
     </section>
 
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="shead"><span class="num">04</span><h2>What I can do for you</h2></div>
+      <p class="sdesc">Three ways to engage. Fixed-scope or ongoing — I'll tell you up front what's realistic and what isn't.</p>
+      <div class="svc">
+        <div class="item break-l">
+          <span class="what">security</span>
+          <h3>Smart-contract review</h3>
+          <p>An attacker's read of your Solidity before (or after) you ship. You get a written report with severity, impact, and a runnable PoC for anything exploitable.</p>
+          <ul><li>Pre-deploy audit pass</li><li>Fix verification</li><li>PoC + remediation notes</li></ul>
+        </div>
+        <div class="item build-l">
+          <span class="what">engineering</span>
+          <h3>DeFi &amp; bot builds</h3>
+          <p>On-chain automation that actually runs: arbitrage, liquidation, and monitoring bots, plus the wallet/RPC plumbing underneath. Tested against mainnet forks.</p>
+          <ul><li>Trading / MEV infrastructure</li><li>Flash-loan contracts</li><li>Backtesting &amp; EV modeling</li></ul>
+        </div>
+        <div class="item play-l">
+          <span class="what">front-end</span>
+          <h3>Web &amp; game builds</h3>
+          <p>Fast, self-contained browser experiences — landing pages, interactive tools, and small games in Canvas/WebGL. Shipped, not mocked up.</p>
+          <ul><li>Landing &amp; portfolio sites</li><li>Browser games &amp; demos</li><li>Interactive prototypes</li></ul>
+        </div>
+      </div>
+    </section>
+
     <!-- CONTACT -->
     <section id="contact" style="border-bottom:0">
-      <div class="shead"><span class="num">04</span><h2>Work with me</h2></div>
+      <div class="shead"><span class="num">05</span><h2>Work with me</h2></div>
       <p class="sdesc">Open to smart-contract audits, DeFi/bot engineering, and front-end / game build work. Tell me what's breaking or what you want built.</p>
       <div class="contact">
         <div class="maill">
